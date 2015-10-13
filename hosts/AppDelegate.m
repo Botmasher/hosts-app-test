@@ -121,6 +121,18 @@
     // define command with args
     //task.arguments = @[@"-c",@""];
     
+    
+    // RUN shell script with permissions
+    NSString *shellCommand = [[NSString alloc] initWithFormat:@"do shell script \"/bin/bash ~/Desktop/test-script.sh\" with administrator privileges"];
+    
+    NSAppleScript *script;
+    
+    script = [[NSAppleScript alloc] initWithSource:shellCommand];
+    
+    NSDictionary* errDict = NULL;
+    
+    [script executeAndReturnError:&errDict];
+    
 //    // TEST #1 running shell script
 //    // returns "Permission denied"
 //    int pid = [[NSProcessInfo processInfo] processIdentifier];

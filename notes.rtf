@@ -48,14 +48,58 @@
 \f0\fs24 \CocoaLigature1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 \cf0 \
-8. How can you copy 
+7.5 How can you copy 
 \i from
 \i0  the app without hardcoding the path?\
 	- how can you package a file with the app?\
-9. How can you copy 
-\i to
-\i0  directories off the root with permission?\
 \
+8. Define a shell script that looks for a certain file, backs it up and then copies a new one in its place\
+\
+#!/bin/bash\
+\
+# Backup existing file and download a new one with the same name\
+\
+# If user has a $HOME/Desktop/log.txt, move it to $HOME/Desktop/log.bak\
+if [ -f "$HOME/Desktop/log.txt" ]; then\
+  echo 'Creating a backup of existing file...'\
+  \
+  # if the .bak does not exist, save this as .bak\
+  if [[ ! -e "$HOME/Desktop/log.bak" ]]; then\
+    mv $HOME/Desktop/log.txt "$HOME/Desktop/log.bak"\
+  # otherwise append a number to the filename, then save it as .bak\
+  else\
+    num=0\
+\
+    while [[ -e "$HOME/Desktop/log.bak.$num" ]]; do\
+      (( num++ ))\
+    done\
+\
+    mv $HOME/Desktop/log.txt "$HOME/Desktop/log.bak.$num"\
+  fi\
+fi\
+\
+# Download file and save it to $HOME/Desktop/log.txt\
+cp "$HOME/Desktop/test/log.txt" "/etc/log.txt" >/dev/null 2>&1\
+sudo rm /etc/aaasprechnev.txt\
+\
+\
+9. Incorporate the shell script into app - MUST run it with permissions\
+\
+\pard\tx529\pardeftab529\pardirnatural
+
+\f1\fs22 \cf0 \CocoaLigature0     \cf2 // RUN shell script with permissions\cf0 \
+    \cf3 NSString\cf0  *shellCommand = [[\cf3 NSString\cf0  \cf4 alloc\cf0 ] \cf4 initWithFormat\cf0 :\cf5 @"do shell script \\"/bin/bash ~/Desktop/test-script.sh\\" with administrator privileges"\cf0 ];\
+    \
+    \cf3 NSAppleScript\cf0  *script;\
+    \
+    script = [[\cf3 NSAppleScript\cf0  \cf4 alloc\cf0 ] \cf4 initWithSource\cf0 :shellCommand];\
+    \
+    \cf3 NSDictionary\cf0 * errDict = \cf6 NULL\cf0 ;\
+    \
+    [script \cf4 executeAndReturnError\cf0 :&errDict];
+\f0\fs24 \CocoaLigature1 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
 10. How can you handle copyItemAtPath errors? (
 \i not
 \i0  error:nil)\
@@ -87,15 +131,17 @@ Make room and install XCode\
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 {\field{\*\fldinst{HYPERLINK "http://tryobjectivec.codeschool.com/"}}{\fldrslt \cf0 http://tryobjectivec.codeschool.com/}}\
 \
-{\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html"}}{\fldrslt https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html}}\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+{\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html"}}{\fldrslt \cf0 https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html}}\
 \
 https://developer.apple.com/library/mac/referencelibrary/GettingStarted/RoadMapOSX/books/RM_YourFirstApp_Mac/Articles/Introduction.html\
 \
 http://www.raywenderlich.com/17811/how-to-make-a-simple-mac-app-on-os-x-10-7-tutorial-part-13\
 \
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\b Update Hosts File on Installed Mac
+\b \cf0 Update Hosts File on Installed Mac
 \b0 \
 1. check for existing host file\
 	- only appears 1 place on a mac\
