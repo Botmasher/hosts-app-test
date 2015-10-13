@@ -49,12 +49,13 @@
      waitUntilExit];
 }
 
+
 // Bottom button action
 - (IBAction)runBashCommand:(id)sender {
     
-    //
-    // Copy files using NSFileManager
-    //
+    /*
+     *  Copy files using NSFileManager
+     */
     
     // SOURCE PATH - construct a path for the source file's location
     
@@ -76,62 +77,97 @@
     NSString *saveFilePath = [myDesktopPath stringByAppendingPathComponent:newFileName];
 
     // COPY from source path to destination path
+    // PLEASE ADD CODE TO HANDLE ERRORS - right now nil
     [[NSFileManager defaultManager] copyItemAtPath:sourcePath toPath:saveFilePath error:nil];
-    
-    // HANDLE ERRORS - right now nil
 
+    /*
+     *  Check if a file already exists using NSFileManager
+     */
     
-    //
-    // copy file using shell instead
-    //
+    //BOOL fileExists = [fileManager fileExistsAtPath:filePath];
+    //NSLog(@"%@", fileExists ? @"y":@"n");
+    
+    
+    /*
+     *  Copy file using shell instead
+     */
     
     //[[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", @"cp ~Desktop/notes.rtf ~/Desktop/notes.bak"]] waitUntilExit];
 
     
-    //
-    // NSTask shell commands tests
-    //
+    /*
+     *  NSTask shell commands tests
+     */
     
     // create a file and print lines to it
 
-    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", @"touch ~/Desktop/new.txt"]] waitUntilExit];
-    
-    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", @"echo '192.0.0.1 www.exampleurl.com' >> ~/Desktop/new.txt"]] waitUntilExit];
-
-    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", @"echo '192.0.0.1 www.exampleurl2.com' >> ~/Desktop/new.txt"]] waitUntilExit];
+//    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", @"touch ~/Desktop/new.txt"]] waitUntilExit];
+//    
+//    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", @"echo '192.0.0.1 www.exampleurl.com' >> ~/Desktop/new.txt"]] waitUntilExit];
+//
+//    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", @"echo '192.0.0.1 www.exampleurl2.com' >> ~/Desktop/new.txt"]] waitUntilExit];
     
     // run defined method 1 for executing command
     [self runSystemCommand:@"ls -a"];
     
     // run defined method 2 for executing command
     [self runShellCommand:@"pwd"];
-    
-    
-    //
-    // Check if a file already exists somewhere
-    //
-    
-    //BOOL fileExists = [fileManager fileExistsAtPath:filePath];
-    //NSLog(@"%@", fileExists ? @"y":@"n");
 
     
-    //
-    // NSTask run a specific command line utility
-    //
-    
-    // create new external task
-    NSTask *task = [[NSTask alloc] init];
-    
-    // launch terminal
-    task.launchPath = @"/usr/bin/say";
+    /*
+     *  NSTask run a specific command line utility
+     */
     
     // define command with args
-    NSString* speakingPhrase = self.textField.stringValue;
-    task.arguments  = @[@"-v",@"victoria",speakingPhrase];
+    //task.arguments = @[@"-c",@""];
     
-    // execute command
-    [task launch];
-    [task waitUntilExit];
+    // create new external task
+    
+//    // TEST #1 running shell script
+//    // returns "Permission denied"
+//    int pid = [[NSProcessInfo processInfo] processIdentifier];
+//    NSPipe *pipe = [NSPipe pipe];
+//    NSFileHandle *file = pipe.fileHandleForReading;
+//    
+//    NSTask *task = [[NSTask alloc] init];
+//    task.launchPath = @"/bin/sh";
+//    task.arguments = @[@"-c", @"~/Desktop/test-script.sh"];
+//    task.standardOutput = pipe;
+//    
+//    [task launch];
+//    
+//    NSData *data = [file readDataToEndOfFile];
+//    [file closeFile];
+//    
+//    NSString *shOutput = [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding];
+//    NSLog (@"sh returned:\n%@", shOutput);
+    
+//    // TEST #2 running shell script
+//    // returns "No such file or directory"
+//    NSTask *task = [[NSTask alloc] init];
+//    [task setLaunchPath:@"/bin/sh"];
+//    [task setArguments:[NSArray arrayWithObjects:@"~/Desktop/test-script.sh", nil]];
+//    [task setStandardOutput:[NSPipe pipe]];
+//    [task setStandardInput:[NSPipe pipe]];
+//    
+//    [task launch];
+//    [task waitUntilExit];
+
+//    // TEST running "say" task
+//
+//    // create new external task
+//    NSTask *task = [[NSTask alloc] init];
+//    
+//    // launch terminal
+//    task.launchPath = @"/usr/bin/say";
+//    
+//    // define command with args
+//    NSString* speakingPhrase = self.textField.stringValue;
+//    task.arguments = @[@"-v",@"victoria",speakingPhrase];
+//    
+//    // execute command
+//    [task launch];
+//    [task waitUntilExit];
 }
 
 - (IBAction)textField:(id)sender {
