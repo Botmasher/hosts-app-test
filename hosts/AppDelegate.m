@@ -52,6 +52,38 @@
 // Bottom button action
 - (IBAction)runBashCommand:(id)sender {
     
+    // SOURCE PATH - construct a path for the source file's location
+    
+    // (1) return the user's home directory
+    NSString *myHomeDirectory = NSHomeDirectory();
+    // (2) build a path branching off Home (repace with your path)
+    NSString *pathFromHomeDirectory = @"/Documents/Life/code/hosts/notes.rtf";
+    // (3) combine the results of steps 1 and 2
+    NSString *sourcePath = [myHomeDirectory stringByAppendingPathComponent:pathFromHomeDirectory];
+    
+    // DESTINATION PATH - construct a destination path for the copy
+    
+    // (1) return the user's Desktop directory
+    NSArray* desktopPaths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES);
+    NSString *myDesktopPath = [desktopPaths objectAtIndex:0];
+    // (2) build a path and filename branching off Desktop
+    NSString *newFileName = @"notes.rtf";
+    // (3) combine the results of steps 1 and 2
+    NSString *saveFilePath = [myDesktopPath stringByAppendingPathComponent:newFileName];
+
+    // COPY from source path to destination path
+    [[NSFileManager defaultManager] copyItemAtPath:sourcePath toPath:saveFilePath error:nil];
+    
+    // HANDLE ERRORS - right now nil
+
+    // copy file using shell instead
+    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", @"~Desktop/notes.rtf ~/Desktop/notes.bak"]] waitUntilExit];
+
+    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", @"sudo -s echo '192.0.0.1 www.facebook.com' >> /etc/hosts"]] waitUntilExit];
+     
+//    BOOL fileExists = [fileManager fileExistsAtPath:filePath];
+//    NSLog(@"%@", fileExists ? @"y":@"n");
+
     // method 1 for executing command
     [self runSystemCommand:@"ls -a"];
     

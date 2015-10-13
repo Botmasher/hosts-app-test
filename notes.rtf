@@ -1,10 +1,72 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
-{\colortbl;\red255\green255\blue255;}
-\margl1440\margr1440\vieww10800\viewh8400\viewkind0
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red0\green116\blue0;\red92\green38\blue153;\red46\green13\blue110;
+\red196\green26\blue22;\red170\green13\blue145;\red28\green0\blue207;}
+\margl1440\margr1440\vieww10760\viewh8400\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f0\fs24 \cf0 Hosts\
+\f0\fs24 \cf0 LOG\
+\
+0. Install Xcode 				// I\'92m on 6.0.1 (6A317)\
+1. Build new project\
+2. Set up mainmenu.xib with a button\
+3. Map button to a named action 		// ctrl+drag to AppDelegate.h\
+4. Prepare to define button execution	// open AppDelegate.m\
+5. Find button method\
+6. Add code to build paths to body of button action method\
+\
+\pard\tx529\pardeftab529\pardirnatural
+
+\f1\fs22 \cf0 \CocoaLigature0     \cf2 // SOURCE PATH - construct a path for the source file's location\cf0 \
+    \
+    \cf2 // (1) return the user's home directory\cf0 \
+    \cf3 NSString\cf0  *myHomeDirectory = \cf4 NSHomeDirectory\cf0 ();\
+    \cf2 // (2) build a path branching off Home\cf0 \
+    \cf3 NSString\cf0  *pathFromHomeDirectory = \cf5 @"/Documents/Life/code/hosts/notes.rtf"\cf0 ;\
+    \cf2 // (3) combine the results of steps 1 and 2\cf0 \
+    \cf3 NSString\cf0  *sourcePath = [myHomeDirectory \cf4 stringByAppendingPathComponent\cf0 :pathFromHomeDirectory];\
+    \
+    \cf2 // DESTINATION PATH - construct a destination path for the copy\cf0 \
+    \
+    \cf2 // (1) return the user's Desktop directory\cf0 \
+    \cf3 NSArray\cf0 * desktopPaths = \cf4 NSSearchPathForDirectoriesInDomains\cf0 (\cf4 NSDesktopDirectory\cf0 , \cf4 NSUserDomainMask\cf0 , \cf6 YES\cf0 );\
+    \cf3 NSString\cf0  *myDesktopPath = [desktopPaths \cf4 objectAtIndex\cf0 :\cf7 0\cf0 ];\
+    \cf2 // (2) build a path and filename branching off Desktop\cf0 \
+    \cf3 NSString\cf0  *newFileName = \cf5 @"notes.rtf"\cf0 ;\
+    \cf2 // (3) combine the results of steps 1 and 2\cf0 \
+    \cf3 NSString\cf0  *saveFilePath = [myDesktopPath \cf4 stringByAppendingPathComponent\cf0 :newFileName];\
+\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 \CocoaLigature1 7. Add code to copy between the two built paths to body of button action method\
+
+\f1\fs22 \CocoaLigature0     \
+\pard\tx529\pardeftab529\pardirnatural
+\cf0     \cf2 // COPY from source path to destination path\cf0 \
+    [[\cf3 NSFileManager\cf0  \cf4 defaultManager\cf0 ] \cf4 copyItemAtPath\cf0 :sourcePath \cf4 toPath\cf0 :saveFilePath \cf4 error\cf0 :\cf6 nil\cf0 ];
+\f0\fs24 \CocoaLigature1 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+\cf0 \
+8. How can you copy 
+\i from
+\i0  the app folder without hardcoding the path?\
+\
+9. How can you copy 
+\i to
+\i0  directories off the root without hardcoding the path?\
+\
+10. How can you handle copyItemAtPath errors? (
+\i not
+\i0  error:nil)\
+\
+11. Change build settings (file > project settings > advanced)\
+\
+12. Build project and locate it in app folder\
+\
+13. Download and mess with iDMG to create a customized installer (drag app folder into it)\
+\
+\
+PROJECT PLAN\
 \
 
 \b Can you make an app?
@@ -53,8 +115,9 @@ http://www.raywenderlich.com/17811/how-to-make-a-simple-mac-app-on-os-x-10-7-tut
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 {\field{\*\fldinst{HYPERLINK "https://web.archive.org/web/20140927083340/http://codevarium.gameka.com.br/how-to-create-your-own-beautiful-dmg-files"}}{\fldrslt \cf0 https://web.archive.org/web/20140927083340/http://codevarium.gameka.com.br/how-to-create-your-own-beautiful-dmg-files}}\
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\b Integration between StephenBlack/hosts <-> App and App <-> user\'92s hosts file
+\b \cf0 Integration between StephenBlack/hosts <-> App and App <-> user\'92s hosts file
 \b0 \
 merge existing hosts file instead of save as backup\
 cocoapod to interface with StevenBlack/hosts and app\
