@@ -30,7 +30,7 @@
     NSPipe *pipe1 = [NSPipe pipe];
     [task1 waitUntilExit];
     [task1 setLaunchPath: @"/bin/sh"];
-    [task1 setArguments: [NSArray arrayWithObjects: @"-c",@"cd ~/Documents/Life |ls -a", nil]];
+    [task1 setArguments: [NSArray arrayWithObjects: @"-c",command, nil]];
     [task1 setStandardOutput: pipe1];
     [task1 launch];
     
@@ -45,28 +45,32 @@
 -(void) runSystemCommand:(NSString*)cmd
 {
     [[NSTask launchedTaskWithLaunchPath:@"/bin/sh"
-                              arguments:@[@"-c", @"cd .. |ls -a |echo 'hello'"]]
+                              arguments:@[@"-c", cmd]]
      waitUntilExit];
 }
 
 // Bottom button action
 - (IBAction)runBashCommand:(id)sender {
-//    [self runSystemCommand:@"ls -a"];
-//    [self runSystemCommand:@"cd ~"];
-    [self runShellCommand:@"unused"];
-//    // create new external task
-//    NSTask *task = [[NSTask alloc] init];
-//    
-//    // launch terminal
-//    task.launchPath = @"/usr/bin/sh";
-//    
-//    // define command with args
-//    NSString* speakingPhrase = self.textField.stringValue;
-//    task.arguments  = @[speakingPhrase];
-//    
-//    // execute command
-//    [task launch];
-//    [task waitUntilExit];
+    
+    // method 1 for executing command
+    [self runSystemCommand:@"ls -a"];
+    
+    // method 2 for executing command
+    [self runShellCommand:@"pwd"];
+    
+    // create new external task
+    NSTask *task = [[NSTask alloc] init];
+    
+    // launch terminal
+    task.launchPath = @"/usr/bin/say";
+    
+    // define command with args
+    NSString* speakingPhrase = self.textField.stringValue;
+    task.arguments  = @[@"-v",@"victoria",speakingPhrase];
+    
+    // execute command
+    [task launch];
+    [task waitUntilExit];
 }
 
 - (IBAction)textField:(id)sender {
