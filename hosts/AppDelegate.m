@@ -52,6 +52,10 @@
 // Bottom button action
 - (IBAction)runBashCommand:(id)sender {
     
+    //
+    // Copy files using NSFileManager
+    //
+    
     // SOURCE PATH - construct a path for the source file's location
     
     // (1) return the user's home directory
@@ -76,19 +80,44 @@
     
     // HANDLE ERRORS - right now nil
 
+    
+    //
     // copy file using shell instead
-    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", @"~Desktop/notes.rtf ~/Desktop/notes.bak"]] waitUntilExit];
+    //
+    
+    //[[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", @"cp ~Desktop/notes.rtf ~/Desktop/notes.bak"]] waitUntilExit];
 
-    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", @"sudo -s echo '192.0.0.1 www.facebook.com' >> /etc/hosts"]] waitUntilExit];
-     
-//    BOOL fileExists = [fileManager fileExistsAtPath:filePath];
-//    NSLog(@"%@", fileExists ? @"y":@"n");
+    
+    //
+    // NSTask shell commands tests
+    //
+    
+    // create a file and print lines to it
 
-    // method 1 for executing command
+    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", @"touch ~/Desktop/new.txt"]] waitUntilExit];
+    
+    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", @"echo '192.0.0.1 www.exampleurl.com' >> ~/Desktop/new.txt"]] waitUntilExit];
+
+    [[NSTask launchedTaskWithLaunchPath:@"/bin/sh" arguments:@[@"-c", @"echo '192.0.0.1 www.exampleurl2.com' >> ~/Desktop/new.txt"]] waitUntilExit];
+    
+    // run defined method 1 for executing command
     [self runSystemCommand:@"ls -a"];
     
-    // method 2 for executing command
+    // run defined method 2 for executing command
     [self runShellCommand:@"pwd"];
+    
+    
+    //
+    // Check if a file already exists somewhere
+    //
+    
+    //BOOL fileExists = [fileManager fileExistsAtPath:filePath];
+    //NSLog(@"%@", fileExists ? @"y":@"n");
+
+    
+    //
+    // NSTask run a specific command line utility
+    //
     
     // create new external task
     NSTask *task = [[NSTask alloc] init];
