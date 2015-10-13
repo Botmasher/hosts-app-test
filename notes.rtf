@@ -39,8 +39,9 @@
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
 \f0\fs24 \cf0 \CocoaLigature1 7. Add code to copy between the two built paths to body of button action method\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f1\fs22 \CocoaLigature0     \
+\f1\fs22 \cf0 \CocoaLigature0     \
 \pard\tx529\pardeftab529\pardirnatural
 \cf0     \cf2 // COPY from source path to destination path\cf0 \
     [[\cf3 NSFileManager\cf0  \cf4 defaultManager\cf0 ] \cf4 copyItemAtPath\cf0 :sourcePath \cf4 toPath\cf0 :saveFilePath \cf4 error\cf0 :\cf6 nil\cf0 ];
@@ -49,39 +50,42 @@
 \cf0 \
 8. How can you copy 
 \i from
-\i0  the app folder without hardcoding the path?\
-\
+\i0  the app without hardcoding the path?\
+	- how can you package a file with the app?\
 9. How can you copy 
 \i to
-\i0  directories off the root without hardcoding the path?\
+\i0  directories off the root with permission?\
 \
 10. How can you handle copyItemAtPath errors? (
 \i not
 \i0  error:nil)\
 \
-11. Change build settings (file > project settings > advanced)\
+11. Change build settings (file > project settings) and location\
 \
-12. Build project and locate it in app folder\
+12. Build project and find built app folder\
 \
 13. Download and mess with iDMG to create a customized installer (drag app folder into it)\
 \
 \
 PROJECT PLAN\
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\b Can you make an app?
+\b \cf0 Can you make an app?
 \b0 \
 0. create a simple OSX project\
 	- installs from dog\
 	- simplest of functionality\
 \
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\i Yes, you can!
+\i \cf0 Yes, you can!
 \i0 \
 Make room and install XCode\
 \
-{\field{\*\fldinst{HYPERLINK "http://tryobjectivec.codeschool.com/"}}{\fldrslt http://tryobjectivec.codeschool.com/}}\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+{\field{\*\fldinst{HYPERLINK "http://tryobjectivec.codeschool.com/"}}{\fldrslt \cf0 http://tryobjectivec.codeschool.com/}}\
 \
 {\field{\*\fldinst{HYPERLINK "https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html"}}{\fldrslt https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/Introduction/Introduction.html}}\
 \
@@ -102,10 +106,12 @@ http://www.raywenderlich.com/17811/how-to-make-a-simple-mac-app-on-os-x-10-7-tut
 4. run dscacheutil -flushcache on local terminal\
 \
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\i Yes, you can!\
+\i \cf0 Yes, you can!\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 {\field{\*\fldinst{HYPERLINK "https://github.com/StevenBlack/hosts"}}{\fldrslt 
-\i0 https://github.com/StevenBlack/hosts}}
+\i0 \cf0 https://github.com/StevenBlack/hosts}}
 \i0 \
 (read the readme for info about mac hosts file location!)\
 \
@@ -124,14 +130,17 @@ cocoapod to interface with StevenBlack/hosts and app\
 	- check for most up-to-date StevenBlack hosts\
 \
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\i Yes, you can!\
+\i \cf0 Yes, you can!\
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\i0 https://cocoapods.org\
+\i0 \cf0 https://cocoapods.org\
 \
 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\b User Interface
+\b \cf0 User Interface
 \b0 \
 user can view blocked hosts, add/edit/delete through interface\
 avoid maintaining database?}

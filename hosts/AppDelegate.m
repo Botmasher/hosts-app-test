@@ -121,8 +121,6 @@
     // define command with args
     //task.arguments = @[@"-c",@""];
     
-    // create new external task
-    
 //    // TEST #1 running shell script
 //    // returns "Permission denied"
 //    int pid = [[NSProcessInfo processInfo] processIdentifier];
