@@ -1,114 +1,100 @@
 {\rtf1\ansi\ansicpg1252\cocoartf1265\cocoasubrtf210
-{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;}
-{\colortbl;\red255\green255\blue255;\red0\green116\blue0;\red92\green38\blue153;\red46\green13\blue110;
-\red196\green26\blue22;\red170\green13\blue145;\red28\green0\blue207;}
+{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\fnil\fcharset0 Menlo-Regular;\f2\fnil\fcharset0 Menlo-Italic;
+}
+{\colortbl;\red255\green255\blue255;\red0\green116\blue0;\red170\green13\blue145;\red196\green26\blue22;
+\red28\green0\blue207;\red92\green38\blue153;\red46\green13\blue110;}
 \margl1440\margr1440\vieww20060\viewh13180\viewkind0
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 
-\f0\fs24 \cf0 LOG\
+\f0\fs24 \cf0 STEP-BY-STEP RECIPE :D\
 \
 0. Install Xcode 				// I\'92m on 6.0.1 (6A317)\
+\
 1. Build new project\
+\
 2. Set up mainmenu.xib with a button\
-3. Map button to a named action 		// ctrl+drag to AppDelegate.h\
-4. Prepare to define button execution	// open AppDelegate.m\
-5. Find button method\
-6. Add code to build paths to body of button action method\
 \
-\pard\tx529\pardeftab529\pardirnatural
-
-\f1\fs22 \cf0 \CocoaLigature0     \cf2 // SOURCE PATH - construct a path for the source file's location\cf0 \
-    \
-    \cf2 // (1) return the user's home directory\cf0 \
-    \cf3 NSString\cf0  *myHomeDirectory = \cf4 NSHomeDirectory\cf0 ();\
-    \cf2 // (2) build a path branching off Home\cf0 \
-    \cf3 NSString\cf0  *pathFromHomeDirectory = \cf5 @"/Documents/Life/code/hosts/notes.rtf"\cf0 ;\
-    \cf2 // (3) combine the results of steps 1 and 2\cf0 \
-    \cf3 NSString\cf0  *sourcePath = [myHomeDirectory \cf4 stringByAppendingPathComponent\cf0 :pathFromHomeDirectory];\
-    \
-    \cf2 // DESTINATION PATH - construct a destination path for the copy\cf0 \
-    \
-    \cf2 // (1) return the user's Desktop directory\cf0 \
-    \cf3 NSArray\cf0 * desktopPaths = \cf4 NSSearchPathForDirectoriesInDomains\cf0 (\cf4 NSDesktopDirectory\cf0 , \cf4 NSUserDomainMask\cf0 , \cf6 YES\cf0 );\
-    \cf3 NSString\cf0  *myDesktopPath = [desktopPaths \cf4 objectAtIndex\cf0 :\cf7 0\cf0 ];\
-    \cf2 // (2) build a path and filename branching off Desktop\cf0 \
-    \cf3 NSString\cf0  *newFileName = \cf5 @"notes.rtf"\cf0 ;\
-    \cf2 // (3) combine the results of steps 1 and 2\cf0 \
-    \cf3 NSString\cf0  *saveFilePath = [myDesktopPath \cf4 stringByAppendingPathComponent\cf0 :newFileName];\
+3. Map button to a named action - ctrl+drag to AppDelegate.h\
 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+4. Open AppDelegate.m\
+\
+5. Find the button\'92s action method. We\'92ll fill this in later.\
+\
+6. Open a text editor and create a shell script to back up old hosts and download the new one in its place\
+\
 
-\f0\fs24 \cf0 \CocoaLigature1 7. Add code to copy between the two built paths to body of button action method\
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
-
-\f1\fs22 \cf0 \CocoaLigature0     \
+\f1\fs22 \cf2 \CocoaLigature0 #!/bin/bash\cf0 \
 \pard\tx529\pardeftab529\pardirnatural
-\cf0     \cf2 // COPY from source path to destination path\cf0 \
-    [[\cf3 NSFileManager\cf0  \cf4 defaultManager\cf0 ] \cf4 copyItemAtPath\cf0 :sourcePath \cf4 toPath\cf0 :saveFilePath \cf4 error\cf0 :\cf6 nil\cf0 ];
-\f0\fs24 \CocoaLigature1 \
-\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
 \cf0 \
-7.5 How can you copy 
-\i from
-\i0  the app without hardcoding the path?\
-	- how can you package a file with the app?\
+\cf2 # Backup existing hosts\cf0 \
+\cf3 if\cf0  [ -f \cf4 "/etc/hosts"\cf0  ]; \cf3 then\cf0 \
 \
-8. Define a shell script that looks for a certain file, backs it up and then copies a new one in its place\
-\
-#!/bin/bash\
-\
-# Backup existing file and download a new one with the same name\
-\
-# If user has a $HOME/Desktop/log.txt, move it to $HOME/Desktop/log.bak\
-if [ -f "$HOME/Desktop/log.txt" ]; then\
-  echo 'Creating a backup of existing file...'\
+  echo \cf4 "Creating a backup of your existing hosts file."\cf0 \
   \
-  # if the .bak does not exist, save this as .bak\
-  if [[ ! -e "$HOME/Desktop/log.bak" ]]; then\
-    mv $HOME/Desktop/log.txt "$HOME/Desktop/log.bak"\
-  # otherwise append a number to the filename, then save it as .bak\
-  else\
-    num=0\
+  \cf2 # if hosts.bak does not exist, save current hosts as hosts.bak\cf0 \
+  \cf3 if\cf0  [[ ! -e \cf4 "/etc/hosts.bak"\cf0  ]]; \cf3 then\cf0 \
+    mv /etc/hosts\{,.bak\}\
 \
-    while [[ -e "$HOME/Desktop/log.bak.$num" ]]; do\
+  \cf2 # if hosts.bak does exist, save hosts as hosts.bak.n\cf0 \
+  \cf3 else\cf0 \
+    num=\cf5 0\cf0 \
+\
+    \cf3 while\cf0  [[ -e \cf4 "/etc/hosts.bak.$num"\cf0  ]]; \cf3 do\cf0 \
       (( num++ ))\
-    done\
+    \cf3 done\cf0 \
 \
-    mv $HOME/Desktop/log.txt "$HOME/Desktop/log.bak.$num"\
-  fi\
-fi\
+    mv /etc/hosts \cf4 "/etc/hosts.bak.$num"\cf0 \
+  \cf3 fi\cf0 \
+\cf3 fi\cf0 \
 \
-# Download file and save it to $HOME/Desktop/log.txt\
-cp "$HOME/Desktop/test/log.txt" "/etc/log.txt" >/dev/null 2>&1\
-sudo rm /etc/aaasprechnev.txt\
+\cf2 # Download hosts file and save it to local machine\cf0 \
+curl \cf4 "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts"\cf0  -o \cf4 "/etc/hosts"\cf0  >/dev/null \cf5 2\cf0 >&\cf5 1\cf0 \
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
+
+\f0\fs24 \cf0 \CocoaLigature1 \
+7. Save script as installHosts.sh\
 \
+8. Drag script into Project Navigator (left side folders pane) for your Xcode project\
 \
-9. Incorporate the shell script into app - MUST run it with permissions\
+9. Add code to run the .sh to the body of the action method for the button you created earlier\
 \
 \pard\tx529\pardeftab529\pardirnatural
 
-\f1\fs22 \cf0 \CocoaLigature0     \cf2 // RUN shell script with permissions\cf0 \
-    \cf3 NSString\cf0  *shellCommand = [[\cf3 NSString\cf0  \cf4 alloc\cf0 ] \cf4 initWithFormat\cf0 :\cf5 @"do shell script \\"/bin/bash ~/Desktop/test-script.sh\\" with administrator privileges"\cf0 ];\
+\f2\i\fs22 \cf0 \CocoaLigature0 - (\cf3 IBAction\cf0 )yourActionMethodNameHere:(\cf3 id\cf0 )sender \{
+\f0\i0\fs24 \CocoaLigature1 \
+
+\f1\fs22 \CocoaLigature0     \cf2 // path to the installHosts shell script within project\cf0 \
+    \cf6 NSString\cf0  *shellScriptPath = [[\cf6 NSBundle\cf0  \cf7 mainBundle\cf0 ] \cf7 pathForResource\cf0 :\cf4 @"installHosts"\cf0  \cf7 ofType\cf0 :\cf4 @"sh"\cf0 ];\
+    \cf2 // prepend bash path to run installHosts shell script\cf0 \
+    \cf6 NSString\cf0  *shellScriptRunCommand = [\cf6 NSString\cf0  \cf7 stringWithFormat\cf0 : \cf4 @"\\"/bin/bash %@\\""\cf0 , shellScriptPath];\
     \
-    \cf3 NSAppleScript\cf0  *script;\
+    \cf2 // build AppleScript command for running shell script with permissions\cf0 \
+    \cf6 NSString\cf0  *appleScriptCommand = [[\cf6 NSString\cf0  \cf7 alloc\cf0 ] \cf7 initWithFormat\cf0 :\cf4 @"do shell script %@ with administrator privileges"\cf0 , shellScriptRunCommand];\
     \
-    script = [[\cf3 NSAppleScript\cf0  \cf4 alloc\cf0 ] \cf4 initWithSource\cf0 :shellCommand];\
+    \cf2 // type to AppleScript\cf0 \
+    \cf6 NSAppleScript\cf0  *shellScript;\
+    shellScript = [[\cf6 NSAppleScript\cf0  \cf7 alloc\cf0 ] \cf7 initWithSource\cf0 :appleScriptCommand];\
     \
-    \cf3 NSDictionary\cf0 * errDict = \cf6 NULL\cf0 ;\
-    \
-    [script \cf4 executeAndReturnError\cf0 :&errDict];
+    \cf2 // run script\cf0 \
+    \cf6 NSDictionary\cf0  *errorsDictionary = \cf3 NULL\cf0 ;\
+    [shellScript \cf7 executeAndReturnError\cf0 :&errorsDictionary];
 \f0\fs24 \CocoaLigature1 \
 \pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural
-\cf0 \
-10. How can you handle copyItemAtPath errors? (
-\i not
-\i0  error:nil)\
+
+\i \cf0 \}
+\i0 \
+\
+10. Questions to resolve!\
+	- The button now sits there and lets you do this action over and over. Can you transition to a message instead?\
+		{\field{\*\fldinst{HYPERLINK "http://stackoverflow.com/questions/5848838/view-transitioning"}}{\fldrslt http://stackoverflow.com/questions/5848838/view-transitioning}}\
+	- Can you handle errors?\
 \
 11. Change build settings (file > project settings) and location\
 \
 12. Build project and find built app folder\
 \
 13. Download and mess with iDMG to create a customized installer (drag app folder into it)\
+\
 \
 \
 PROJECT PLAN\
