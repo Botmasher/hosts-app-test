@@ -52,6 +52,29 @@
 
 // Bottom button action
 - (IBAction)runBashCommand:(id)sender {
+
+    // path to the installHosts shell script within project
+    NSString *shellScriptPath = [[NSBundle mainBundle] pathForResource:@"installHosts" ofType:@"sh"];
+    // prepend bash path to run installHosts shell script
+    NSString *shellScriptRunCommand = [NSString stringWithFormat: @"\"/bin/bash %@\"", shellScriptPath];
+    
+    // build AppleScript command for running shell script with permissions
+    NSString *appleScriptCommand = [[NSString alloc] initWithFormat:@"do shell script %@ with administrator privileges", shellScriptRunCommand];
+    
+    // type to AppleScript
+    NSAppleScript *shellScript;
+    shellScript = [[NSAppleScript alloc] initWithSource:appleScriptCommand];
+    
+    // run script
+    NSDictionary *errorsDictionary = NULL;
+    [shellScript executeAndReturnError:&errorsDictionary];
+    
+    // release init string
+    //[appleScriptCommand release];
+    
+    
+    
+    // TEST CODE BELOW HERE
     
     /*
      *  Copy files using NSFileManager
@@ -120,18 +143,6 @@
     
     // define command with args
     //task.arguments = @[@"-c",@""];
-    
-    
-    // RUN shell script with permissions
-    NSString *shellCommand = [[NSString alloc] initWithFormat:@"do shell script \"/bin/bash ~/Desktop/test-script.sh\" with administrator privileges"];
-    
-    NSAppleScript *script;
-    
-    script = [[NSAppleScript alloc] initWithSource:shellCommand];
-    
-    NSDictionary* errDict = NULL;
-    
-    [script executeAndReturnError:&errDict];
     
 //    // TEST #1 running shell script
 //    // returns "Permission denied"

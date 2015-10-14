@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "hosts/AppDelegate.m"
-            timestampString = "466464151.466832"
+            timestampString = "466526767.797197"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "-runBashCommand:"
             landmarkType = "5">
          </BreakpointContent>
